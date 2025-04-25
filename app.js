@@ -1,4 +1,4 @@
-const form = document.getElementById("playlistForm");
+const playlistForm = document.getElementById("playlistForm");
 const playlistNameInput = document.getElementById("playlistName");
 const genreInput = document.getElementById("genre");
 const artistInput = document.getElementById("artist");
@@ -25,13 +25,13 @@ playlistForm.addEventListener("submit", function (event) {
     const genre = genreInput.value.trim();
     const artist = artistInput.value.trim();
 
-    if (!song || !genre || !artist) {
+    if (!playlistName || !genre || !artist) {
         alert("Please fill in all fields!");
         return;
     }
 
     const newPlaylist = {
-        song,
+        name: playlistName,
         genre,
         artist,
         songs: []
@@ -41,30 +41,67 @@ playlistForm.addEventListener("submit", function (event) {
     playlistForm.reset();
 
     showPlaylists();
-    showMockedSOngs();
+    showMockedSongs();
 });
 
-playlistForm.addEventListener("submit", handleFormSubmit);
-
-function showPlaylistsOnPage() {
+function showPlaylists() {
     playlistDisplayList.innerHTML = "";
 
-    allPlaylists.forEach(function (currentPlaylist) {
+    allPlaylists.forEach(function (playlist) {
         const listItem = document.createElement("li");
 
+        let songsHtml = "<em>No songs added yet</em>";
+        if (playlist.songs.length > 0) {
+            songsHtml = "<ul>";
+            playlist.songs.forEach(function (song) {
+                songsHtml += "<li>" + song + "</li>";
+            });
+            songsHtml += "</ul>";
+        }
+
         listItem.innerHTML = `
-        <strong>${currentPlaylist.name}</strong><br>
-        Genre: ${currentPlaylist.genre}<br>
-        Artist: ${currentPlaylist.artist}<br>
-        Songs:
-        <ul>
-          ${currentPlaylist.songs.map(function (song) {
-            return `<li>${song}</li>`;
-        }).join("")}
-        </ul>
-        <hr>
-      `;
+            <strong>${playlist.name}</strong><br>
+            Genre: ${playlist.genre}<br>
+            Artist: ${playlist.artist}<br>
+            Songs: ${songsHtml}
+            <hr>
+        `;
 
         playlistDisplayList.appendChild(listItem);
     });
 }
+
+function showMockedSongs() {
+
+    mockedSongList.innerHTML = "";
+
+    mockedSongs.forEach((song, songIndex) => {
+        const li = document.createElement("li");
+
+        const select = document.createElement("select");
+        allPlaylists.forEach((playlist, index) => {
+            const option = document.createElement("option");
+            option.value = index;
+            option.textContent = playlist.name;
+            select.appendChild(option);
+        });
+
+        const button = document.createElement("button");
+        button.textContent = "Lägg till i spellista";
+        button.onclick = () => {
+            const selectedIndex = select.value;
+            if (allPlaylists[selectedIndex]) {
+                allPlaylists[selectedIndex].songs.push(song.song);
+                showPlaylists();
+            }
+        };
+
+        li.innerHTML = `<strong>${song.song}</strong> (${song.artist} - ${song.genre})<br>`;
+        li.appendChild(select);
+        li.appendChild(button);
+        mockedSongList.appendChild(li);
+    });
+}
+
+showPlaylists();
+showMockedSongs();
