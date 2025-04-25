@@ -18,36 +18,31 @@ const mockedSongs = [
     { song: "NASA", artist: "Futurecop!", genre: "Synthwave" },
 ];
 
-function handleFormSubmit(eventObject) {
-    eventObject.preventDefault();
+playlistForm.addEventListener("submit", function (event) {
+    event.preventDefault();
 
     const playlistName = playlistNameInput.value.trim();
     const genre = genreInput.value.trim();
     const artist = artistInput.value.trim();
-    const songsString = songsInput.value;
-    const songsArray = songsString.split(",").map(function (song) {
 
-        return song.trim();
-    }).filter(function (song) {
-        return song !== "";
-    });
-
-    if (playlistName === "" || genre === "" || artist === "" || songsArray.length === 0) {
+    if (!song || !genre || !artist) {
         alert("Please fill in all fields!");
         return;
     }
 
-    const playlistObject = {
-        name: playlistName,
-        genre: genre,
-        artist: artist,
-        songs: songsArray
+    const newPlaylist = {
+        song,
+        genre,
+        artist,
+        songs: []
     };
 
-    allPlaylists.push(playlistObject);
-    showPlaylistsOnPage();
+    allPlaylists.push(newPlaylist);
     playlistForm.reset();
-}
+
+    showPlaylists();
+    showMockedSOngs();
+});
 
 playlistForm.addEventListener("submit", handleFormSubmit);
 
