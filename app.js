@@ -75,7 +75,7 @@ function showMockedSongs() {
 
     mockedSongList.innerHTML = "";
 
-    mockedSongs.forEach((song, songIndex) => {
+    mockedSongs.forEach((song) => {
         const li = document.createElement("li");
 
         const select = document.createElement("select");
