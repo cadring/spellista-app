@@ -2,11 +2,21 @@ const form = document.getElementById("playlistForm");
 const playlistNameInput = document.getElementById("playlistName");
 const genreInput = document.getElementById("genre");
 const artistInput = document.getElementById("artist");
-const songsInput = document.getElementById("songs");
-const list = document.getElementById("playlistList");
+
 const playlistDisplayList = document.getElementById("playlistList");
+const mockedSongList = document.getElementById("mockedSongList");
 
 let allPlaylists = [];
+
+const mockedSongs = [
+
+    { song: "Alfons-visan", artist: "Alfons Åberg", genre: "Barnmusik" },
+    { song: "Ghost Killer", artist: "Sarah Klang", genre: "Swedish Pop" },
+    { song: "Running Up That Hill", artist: "Kate Bush", genre: "Pop" },
+    { song: "A Real Hero", artist: "Electric Youth", genre: "Synthwave-Pop" },
+    { song: "Mind", artist: "Sarah Klang", genre: "Swedish Pop" },
+    { song: "NASA", artist: "Futurecop!", genre: "Synthwave" },
+];
 
 function handleFormSubmit(eventObject) {
     eventObject.preventDefault();
